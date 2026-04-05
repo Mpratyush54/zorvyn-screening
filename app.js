@@ -20,12 +20,10 @@ app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Rate limiting
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // limit each IP to 100 requests per windowMs
-});
-app.use(limiter);
+const { globalLimiter } = require('./middleware/rate_limit.middleware');
+
+// Rate limiting (Global Protection)
+app.use(globalLimiter);
 
 // API Routes
 app.use('/api', routes);

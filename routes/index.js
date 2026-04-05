@@ -6,7 +6,9 @@ const userRoutes = require('./user.routes');
 const recordRoutes = require('./record.routes');
 const dashboardRoutes = require('./dashboard.routes');
 
-router.use('/auth', authRoutes);
+const { authLimiter } = require('../middleware/rate_limit.middleware');
+
+router.use('/auth', authLimiter, authRoutes);
 router.use('/users', userRoutes);
 router.use('/records', recordRoutes);
 router.use('/dashboard', dashboardRoutes);
